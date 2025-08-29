@@ -232,6 +232,28 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ObstacleDetector<PointT>::com
 
     for (const auto& cluster : cloud_clusters) 
     {
+        if (cluster->points.size() < 4u) // unsigned 4
+        {
+          typename pcl::PointCloud<PointT>::Ptr hull(new pcl::PointCloud<PointT>);
+          convex_hulls.push_back(hull);
+          continue;
+        }
+        const double min_eps = 10 * std::numeric_limits<double>::epsilon();
+        const double diff_x = cluster->points[1].x - cluster->points[0].x;
+        const double diff_y = cluster->points[1].y - cluster->points[0].y;
+        size_t idx = 0;
+        for (idx = 2; idx < cluster->points.size(); ++idx) {
+            const double tdiff_x = cluster->points[idx].x - cluster->points[0].x;
+            const double tdiff_y = cluster->points[idx].y - cluster->points[0].y;
+            if ((diff_x * tdiff_y - tdiff_x * diff_y) > min_eps) {
+                break;
+            }
+        }
+        if (idx >= cluster->points.size()) {
+          cluster->points[0].x += min_eps;
+          cluster->points[0].y += min_eps;
+          cluster->points[1].x -= min_eps;
+        }
         // Create a new point cloud to store the convex hull
         typename pcl::PointCloud<PointT>::Ptr hull(new pcl::PointCloud<PointT>);
 

@@ -4,14 +4,14 @@
   <rosparam file="$(find lidar_obstacle_detector)/cfg/rslidar.yaml" command="load" />
   <node name="obstacle_detector_node" pkg="lidar_obstacle_detector" type="obstacle_detector_node" output="screen">
     <!-- Input Topic Names -->
-    <param name="lidar_points_topic"                  value="/middle/rslidar_points"/>  #/middle/rslidar_points
+    <param name="lidar_points_topic"                  value="/middle/rslidar_points"/>  #/carla/ego_vehicle/MyLidar
     <!-- Output Topic Names -->
     <param name="cloud_ground_topic"                  value="obstacle_detector/cloud_ground"/>
     <param name="cloud_clusters_topic"                value="obstacle_detector/cloud_clusters"/>
     <param name="jsk_bboxes_topic"                    value="obstacle_detector/jsk_bboxes"/>
     <param name="autoware_objects_topic"              value="/autoware_tracker/cluster/objects"/>
     <!-- Parameters -->
-    <param name="bbox_target_frame"                   value="rslidar"/>
+    <param name="bbox_target_frame"                   value="rslidar"/> #ego_vehicle/MyLidar
   </node>
 
   <!-- Dynamic Reconfigure GUI -->

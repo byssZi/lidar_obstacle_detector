@@ -202,8 +202,8 @@ void ObstacleDetectorNode::lidarPointsCallback(const sensor_msgs::PointCloud2::C
   if (GROUND_SEGMENT_TYPE == "RANSAC") {
     ROS_INFO("Using RANSAC for ground segmentation");
     auto segmented_clouds = obstacle_detector->segmentPlane(filtered_cloud, 30, GROUND_THRESH);
-    auto cloudNonground_out_ptr = travel_object_seg->segmentObjects(segmented_clouds.first);
-    segmented_clouds_ptr.first = cloudNonground_out_ptr;
+    //auto cloudNonground_out_ptr = travel_object_seg->segmentObjects(segmented_clouds.first);
+    segmented_clouds_ptr.first = segmented_clouds.first;
     segmented_clouds_ptr.second = segmented_clouds.second;
 
     // 调用 RANSAC 相关的函数
@@ -214,8 +214,8 @@ void ObstacleDetectorNode::lidarPointsCallback(const sensor_msgs::PointCloud2::C
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloudNonground_ptr(new pcl::PointCloud<pcl::PointXYZ>(segmented_clouds.first));
     //pcl::PointCloud<pcl::PointXYZ>::Ptr cloudNonground_out_ptr(new pcl::PointCloud<pcl::PointXYZ>(segmented_clouds.first));
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloudGround_out_ptr(new pcl::PointCloud<pcl::PointXYZ>(segmented_clouds.second));
-    auto cloudNonground_out_ptr = travel_object_seg->segmentObjects(cloudNonground_ptr);
-    segmented_clouds_ptr.first = cloudNonground_out_ptr;
+    //auto cloudNonground_out_ptr = travel_object_seg->segmentObjects(cloudNonground_ptr);
+    segmented_clouds_ptr.first = cloudNonground_ptr;
     segmented_clouds_ptr.second = cloudGround_out_ptr;
 
     // 调用 RGPF 相关的函数
@@ -227,8 +227,8 @@ void ObstacleDetectorNode::lidarPointsCallback(const sensor_msgs::PointCloud2::C
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloudNonground_ptr(new pcl::PointCloud<pcl::PointXYZ>(segmented_clouds.first));
     //pcl::PointCloud<pcl::PointXYZ>::Ptr cloudNonground_out_ptr(new pcl::PointCloud<pcl::PointXYZ>(segmented_clouds.first));
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloudGround_out_ptr(new pcl::PointCloud<pcl::PointXYZ>(segmented_clouds.second));
-    auto cloudNonground_out_ptr = travel_object_seg->segmentObjects(cloudNonground_ptr);
-    segmented_clouds_ptr.first = cloudNonground_out_ptr;
+    //auto cloudNonground_out_ptr = travel_object_seg->segmentObjects(cloudNonground_ptr);
+    segmented_clouds_ptr.first = cloudNonground_ptr;
     segmented_clouds_ptr.second = cloudGround_out_ptr;
     // 调用 TRAVEL 相关的函数
   } else {
